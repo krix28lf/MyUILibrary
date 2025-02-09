@@ -1,76 +1,79 @@
-local MyUILib = {}
+local Library = {}
 
-function MyUILib:CreateWindow(title, size, position, color)
+-- Création de l'interface principale
+function Library:CreateWindow(Title)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    ScreenGui.ResetOnSpawn = false
 
     local Window = Instance.new("Frame")
+    Window.Size = UDim2.new(0, 500, 0, 350)
+    Window.Position = UDim2.new(0.25, 0, 0.2, 0)
+    Window.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Window.Parent = ScreenGui
-    Window.Size = size or UDim2.new(0, 350, 0, 300)
-    Window.Position = position or UDim2.new(0.3, 0, 0.3, 0)
-    Window.BackgroundColor3 = color or Color3.fromRGB(40, 40, 40)
-    Window.Active = true
-    Window.Draggable = true
 
-    local UICorner = Instance.new("UICorner")
-    UICorner.Parent = Window
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Text = Title
+    TitleLabel.Size = UDim2.new(1, 0, 0, 30)
+    TitleLabel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.Parent = Window
 
-    local Title = Instance.new("TextLabel")
-    Title.Parent = Window
-    Title.Size = UDim2.new(1, 0, 0.15, 0)
-    Title.BackgroundTransparency = 1
-    Title.Text = title or "UI Window"
-    Title.Font = Enum.Font.GothamBold
-    Title.TextSize = 18
-    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    local Container = Instance.new("Frame")
+    Container.Size = UDim2.new(1, -10, 1, -40)
+    Container.Position = UDim2.new(0, 5, 0, 35)
+    Container.BackgroundTransparency = 1
+    Container.Parent = Window
 
-    local ContentFrame = Instance.new("Frame")
-    ContentFrame.Parent = Window
-    ContentFrame.Size = UDim2.new(1, 0, 0.85, 0)
-    ContentFrame.Position = UDim2.new(0, 0, 0.15, 0)
-    ContentFrame.BackgroundTransparency = 1
-
-    local Layout = Instance.new("UIListLayout")
-    Layout.Parent = ContentFrame
-    Layout.Padding = UDim.new(0, 5)
-    Layout.FillDirection = Enum.FillDirection.Vertical
-    Layout.SortOrder = Enum.SortOrder.LayoutOrder
-
-    return { Window = Window, Content = ContentFrame } -- 🔹 Retourne bien un tableau contenant Content !
+    return {Gui = ScreenGui, Main = Window, Container = Container}
 end
 
--- 🔹 Ajout de AddCategory dans MyUILib
-function MyUILib.AddCategory(parent, name)
-    local CategoryFrame = Instance.new("Frame")
-    CategoryFrame.Parent = parent.Content
-    CategoryFrame.Size = UDim2.new(1, 0, 0, 30)
-    CategoryFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+return Library
 
-    local UICorner = Instance.new("UICorner")
-    UICorner.Parent = CategoryFrame
+function Library:AddCategory(Window, Name)
+    local Category = Instance.new("Frame")
+    Category.Size = UDim2.new(1, 0, 0, 30)
+    Category.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Category.Parent = Window.Container
 
-    local Title = Instance.new("TextLabel")
-    Title.Parent = CategoryFrame
-    Title.Size = UDim2.new(1, 0, 1, 0)
-    Title.Text = name
-    Title.Font = Enum.Font.GothamBold
-    Title.TextSize = 16
-    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.BackgroundTransparency = 1
+    local Label = Instance.new("TextLabel")
+    Label.Text = Name
+    Label.Size = UDim2.new(1, 0, 1, 0)
+    Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Label.BackgroundTransparency = 1
+    Label.Parent = Category
 
-    local ContentFrame = Instance.new("Frame")
-    ContentFrame.Parent = parent.Content
-    ContentFrame.Size = UDim2.new(1, 0, 0, 0)
-    ContentFrame.BackgroundTransparency = 1
+    local Container = Instance.new("Frame")
+    Container.Size = UDim2.new(1, 0, 0, 0)
+    Container.Position = UDim2.new(0, 0, 1, 0)
+    Container.BackgroundTransparency = 1
+    Container.Parent = Category
 
-    local Layout = Instance.new("UIListLayout")
-    Layout.Parent = ContentFrame
-    Layout.Padding = UDim.new(0, 5)
-    Layout.FillDirection = Enum.FillDirection.Vertical
-    Layout.SortOrder = Enum.SortOrder.LayoutOrder
-
-    return { Frame = ContentFrame }
+    return Container
 end
 
-return MyUILib
+function Library:AddButton(Category, Name, Callback)
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(1, 0, 0, 30)
+    Button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.Text = Name
+    Button.Parent = Category
+
+    Button.MouseButton1Click:Connect(Callback)
+end
+
+function Library:AddToggle(Category, Name, Callback)
+    local Toggle = Instance.new("TextButton")
+    Toggle.Size = UDim2.new(1, 0, 0, 30)
+    Toggle.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Toggle.Text = Name .. " [OFF]"
+    Toggle.Parent = Category
+
+    local State = false
+    Toggle.MouseButton1Click:Connect(function()
+        State = not State
+        Toggle.Text = Name .. (State and " [ON]" or " [OFF]")
+        Callback(State)
+    end)
+end
