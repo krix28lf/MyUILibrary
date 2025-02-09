@@ -1,10 +1,9 @@
 local MyUILib = {}
 
--- 📌 Création d'une Fenêtre Principale
 function MyUILib:CreateWindow(title, size, position, color)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    ScreenGui.ResetOnSpawn = false -- Garde l'UI après la réapparition
+    ScreenGui.ResetOnSpawn = false
 
     local Window = Instance.new("Frame")
     Window.Parent = ScreenGui
@@ -12,7 +11,7 @@ function MyUILib:CreateWindow(title, size, position, color)
     Window.Position = position or UDim2.new(0.3, 0, 0.3, 0)
     Window.BackgroundColor3 = color or Color3.fromRGB(40, 40, 40)
     Window.Active = true
-    Window.Draggable = true -- Permet de déplacer la fenêtre
+    Window.Draggable = true
 
     local UICorner = Instance.new("UICorner")
     UICorner.Parent = Window
@@ -34,15 +33,15 @@ function MyUILib:CreateWindow(title, size, position, color)
 
     local Layout = Instance.new("UIListLayout")
     Layout.Parent = ContentFrame
-    Layout.Padding = UDim.new(0, 5) -- Espacement automatique
+    Layout.Padding = UDim.new(0, 5)
     Layout.FillDirection = Enum.FillDirection.Vertical
     Layout.SortOrder = Enum.SortOrder.LayoutOrder
 
-    return {Window = Window, Content = ContentFrame}
+    return { Window = Window, Content = ContentFrame } -- 🔹 Retourne bien un tableau contenant Content !
 end
 
--- 📌 Ajout d'une Catégorie (Menu)
-function MyUILib:AddCategory(parent, name)
+-- 🔹 Ajout de AddCategory dans MyUILib
+function MyUILib.AddCategory(parent, name)
     local CategoryFrame = Instance.new("Frame")
     CategoryFrame.Parent = parent.Content
     CategoryFrame.Size = UDim2.new(1, 0, 0, 30)
@@ -62,7 +61,7 @@ function MyUILib:AddCategory(parent, name)
 
     local ContentFrame = Instance.new("Frame")
     ContentFrame.Parent = parent.Content
-    ContentFrame.Size = UDim2.new(1, 0, 0, 0) -- Ajusté dynamiquement
+    ContentFrame.Size = UDim2.new(1, 0, 0, 0)
     ContentFrame.BackgroundTransparency = 1
 
     local Layout = Instance.new("UIListLayout")
@@ -71,59 +70,7 @@ function MyUILib:AddCategory(parent, name)
     Layout.FillDirection = Enum.FillDirection.Vertical
     Layout.SortOrder = Enum.SortOrder.LayoutOrder
 
-    return {Frame = ContentFrame}
-end
-
--- 📌 Ajout d'un Bouton
-function MyUILib:AddButton(parent, text, callback)
-    local Button = Instance.new("TextButton")
-    Button.Parent = parent.Frame
-    Button.Size = UDim2.new(1, 0, 0, 30)
-    Button.BackgroundColor3 = Color3.fromRGB(100, 100, 250)
-    Button.Text = text or "Bouton"
-    Button.Font = Enum.Font.Gotham
-    Button.TextSize = 16
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-    local UICorner = Instance.new("UICorner")
-    UICorner.Parent = Button
-
-    Button.MouseButton1Click:Connect(function()
-        if callback then
-            callback()
-        end
-    end)
-
-    return Button
-end
-
--- 📌 Ajout d'un Toggle (ON/OFF)
-function MyUILib:AddToggle(parent, text, defaultState, callback)
-    local ToggleButton = Instance.new("TextButton")
-    ToggleButton.Parent = parent.Frame
-    ToggleButton.Size = UDim2.new(1, 0, 0, 30)
-    ToggleButton.BackgroundColor3 = defaultState and Color3.fromRGB(50, 200, 50) or Color3.fromRGB(200, 50, 50)
-    ToggleButton.Text = text or "Toggle"
-    ToggleButton.Font = Enum.Font.Gotham
-    ToggleButton.TextSize = 16
-    ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-    local UICorner = Instance.new("UICorner")
-    UICorner.Parent = ToggleButton
-
-    local isOn = defaultState
-
-    ToggleButton.MouseButton1Click:Connect(function()
-        isOn = not isOn
-        ToggleButton.BackgroundColor3 = isOn and Color3.fromRGB(50, 200, 50) or Color3.fromRGB(200, 50, 50)
-        ToggleButton.Text = isOn and "ON" or "OFF"
-
-        if callback then
-            callback(isOn)
-        end
-    end)
-
-    return ToggleButton
+    return { Frame = ContentFrame }
 end
 
 return MyUILib
