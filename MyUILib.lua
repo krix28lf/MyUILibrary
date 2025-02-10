@@ -352,6 +352,7 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 	function ContainerClass:Button(Config)
 		Config = Config or {}
 		local Button = Prefabs.Button:Clone()
+		Config.BackgroundColor3 = Config.BackgroundColor3 or Color3.fromRGB(255, 0, 0) 
 		local ObjectClass = self:NewInstance(Button, Config)
 
 		local function Callback(...)
