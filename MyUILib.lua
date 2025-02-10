@@ -28,16 +28,18 @@ local ImGui = {
 				BackgroundTransparency = 0.5,
 			} 
 		},
-		WindowBorder = {
-			Selected = {
-				Transparency = 0,
-				Thickness = 1
-			},
-			Deselected = {
-				Transparency = 0.7,
-				Thickness = 1
-			}
-		},
+        WindowBorder = {
+            Selected = {
+                BackgroundColor3 = Color3.fromRGB(0, 0, 255), -- Bordure sélectionnée (bleu)
+                Transparency = 0,
+                Thickness = 1
+            },
+            Deselected = {
+                BackgroundColor3 = Color3.fromRGB(0, 0, 200), -- Bordure non sélectionnée (bleu foncé)
+                Transparency = 0.7,
+                Thickness = 1
+            }
+        },    
 	},
 
 	Windows = {},
