@@ -1075,6 +1075,7 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 		Config = Config or {}
 		Config.Open = false
 		Config.Value = ""
+		Config.BackgroundColor3 = Config.BackgroundColor3 or Color3.fromRGB(60, 20, 20) 
 
 		local Combo: TextButton = Prefabs.Combo:Clone()
 		local Toggle: ImageButton = Combo.Toggle.ToggleButton
