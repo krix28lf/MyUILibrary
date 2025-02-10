@@ -1488,6 +1488,24 @@ end
 
 function ImGui:CreateWindow(WindowConfig)
 	--// Create Window frame
+    WindowConfig.Colors = {
+        Window = {
+            BackgroundColor3 = Color3.fromRGB(0, 0, 255), -- Couleur principale (bleu)
+        },
+        TitleBar = {
+            BackgroundColor3 = Color3.fromRGB(0, 0, 200), -- Couleur de la barre de titre
+        },
+        Buttons = {
+            BackgroundColor3 = Color3.fromRGB(0, 0, 180), -- Couleur des boutons
+        },
+        Tabs = {
+            BackgroundColor3 = Color3.fromRGB(0, 0, 220), -- Couleur des onglets
+        },
+        Inputs = {
+            BackgroundColor3 = Color3.fromRGB(50, 50, 255), -- Couleur des champs de texte
+        }
+    }
+    
 	local Window: Frame = Prefabs.Window:Clone()
     local WindowCorner = Instance.new("UICorner")
     WindowCorner.CornerRadius = UDim.new(0, 10) -- Change 10 pour ajuster l'arrondi
