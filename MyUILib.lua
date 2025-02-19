@@ -1,6 +1,4 @@
---// Written by depso
---// MIT License
---// Copyright (c) 2024 Depso
+
 
 local ImGui = {
 	Animations = {
