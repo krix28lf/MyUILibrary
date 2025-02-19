@@ -1487,6 +1487,13 @@ function ImGui:SetWindowProps(Properties, IgnoreWindows)
 end
 
 function ImGui:CreateWindow(WindowConfig)
+	 -- Vérifie si une fenêtre avec le même titre existe déjà et la détruit
+	 for _, child in pairs(ImGui.ScreenGui:GetChildren()) do
+        if child:IsA("Frame") and child.Name == WindowConfig.Title then
+            child:Destroy() -- Supprime l'ancienne instance
+        end
+    end
+	
 	--// Create Window frame
 	local Window: Frame = Prefabs.Window:Clone()
 	Window.Parent = ImGui.ScreenGui
