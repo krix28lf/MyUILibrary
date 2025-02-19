@@ -1,4 +1,3 @@
-
 --// Written by depso
 --// MIT License
 --// Copyright (c) 2024 Depso
@@ -352,7 +351,6 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 	function ContainerClass:Button(Config)
 		Config = Config or {}
 		local Button = Prefabs.Button:Clone()
-		Config.BackgroundColor3 = Config.BackgroundColor3 or Color3.fromRGB(60, 20, 20) 
 		local ObjectClass = self:NewInstance(Button, Config)
 
 		local function Callback(...)
@@ -1075,7 +1073,6 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 		Config = Config or {}
 		Config.Open = false
 		Config.Value = ""
-		Config.BackgroundColor3 = Config.BackgroundColor3 or Color3.fromRGB(60, 20, 20) 
 
 		local Combo: TextButton = Prefabs.Combo:Clone()
 		local Toggle: ImageButton = Combo.Toggle.ToggleButton
@@ -1490,13 +1487,15 @@ function ImGui:SetWindowProps(Properties, IgnoreWindows)
 end
 
 function ImGui:CreateWindow(WindowConfig)
+	 -- Vérifie si une fenêtre avec le même titre existe déjà et la détruit
+	 for _, child in pairs(ImGui.ScreenGui:GetChildren()) do
+        if child:IsA("Frame") and child.Name == WindowConfig.Title then
+            child:Destroy() -- Supprime l'ancienne instance
+        end
+    end
+	
 	--// Create Window frame
 	local Window: Frame = Prefabs.Window:Clone()
-    -- Ajouter des coins arrondis à la fenêtre
-    local WindowCorner = Instance.new("UICorner")
-    WindowCorner.CornerRadius = UDim.new(0, 10) -- Change 10 pour ajuster l'arrondi
-    WindowCorner.Parent = Window
-
 	Window.Parent = ImGui.ScreenGui
 	Window.Visible = true
 	WindowConfig.Window = Window
@@ -1518,11 +1517,6 @@ function ImGui:CreateWindow(WindowConfig)
 
 	--// Title Bar
 	local TitleBar: Frame = Content.TitleBar
-    -- Ajouter des coins arrondis à la barre de titre
-    local TitleBarCorner = Instance.new("UICorner")
-    TitleBarCorner.CornerRadius = UDim.new(0, 10) 
-    TitleBarCorner.Parent = TitleBar
-
 	TitleBar.Visible = WindowConfig.NoTitleBar ~= true
 
 	local Toggle = TitleBar.Left.Toggle
