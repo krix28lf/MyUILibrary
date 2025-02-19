@@ -1489,6 +1489,10 @@ end
 function ImGui:CreateWindow(WindowConfig)
 	--// Create Window frame
 	local Window: Frame = Prefabs.Window:Clone()
+    local WindowCorner = Instance.new("UICorner")
+    WindowCorner.CornerRadius = UDim.new(0, 10) -- Change 10 pour ajuster l'arrondi
+    WindowCorner.Parent = Window
+
 	Window.Parent = ImGui.ScreenGui
 	Window.Visible = true
 	WindowConfig.Window = Window
@@ -1510,6 +1514,10 @@ function ImGui:CreateWindow(WindowConfig)
 
 	--// Title Bar
 	local TitleBar: Frame = Content.TitleBar
+    local TitleBarCorner = Instance.new("UICorner")
+    TitleBarCorner.CornerRadius = UDim.new(0, 10) 
+    TitleBarCorner.Parent = TitleBar
+
 	TitleBar.Visible = WindowConfig.NoTitleBar ~= true
 
 	local Toggle = TitleBar.Left.Toggle
