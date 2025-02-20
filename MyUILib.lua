@@ -351,6 +351,9 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 	function ContainerClass:Button(Config)
 		Config = Config or {}
 		local Button = Prefabs.Button:Clone()
+		local UICorner = Instance.new("UICorner")
+		UICorner.CornerRadius = UDim.new(0, 8)
+		UICorner.Parent = Button		
 		local ObjectClass = self:NewInstance(Button, Config)
 
 		local function Callback(...)
@@ -403,6 +406,10 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 		local IsRadio = Config.IsRadio
 
 		local CheckBox = Prefabs.CheckBox:Clone()
+		local UICorner = Instance.new("UICorner")
+        UICorner.CornerRadius = UDim.new(0, 8)
+        UICorner.Parent = CheckBox
+
 		local Tickbox: ImageButton = CheckBox.Tickbox
 		local Tick: ImageLabel = Tickbox.Tick
 		local Label = CheckBox.Label
@@ -518,6 +525,10 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 	function ContainerClass:InputText(Config)
 		Config = Config or {}
 		local TextInput = Prefabs.TextInput:Clone()
+		local UICorner = Instance.new("UICorner")
+		UICorner.CornerRadius = UDim.new(0, 8)
+		UICorner.Parent = TextInput
+		
 		local TextBox: TextBox = TextInput.Input
 		local ObjectClass = self:NewInstance(TextInput, Config)
 
@@ -1015,6 +1026,9 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 		local TobeNullKey = Config.NullKey or Enum.KeyCode.Backspace
 
 		local Keybind: TextButton = Prefabs.Keybind:Clone()
+		local UICorner = Instance.new("UICorner")
+		UICorner.CornerRadius = UDim.new(0, 8)
+		UICorner.Parent = Keybind		
 		local ValueText: TextButton = Keybind.ValueText
 
 		local ObjectClass = nil
@@ -1075,6 +1089,9 @@ function ImGui:ContainerClass(Frame: Frame, Class, Window)
 		Config.Value = ""
 
 		local Combo: TextButton = Prefabs.Combo:Clone()
+		local UICorner = Instance.new("UICorner")
+		UICorner.CornerRadius = UDim.new(0, 8)
+		UICorner.Parent = Combo		
 		local Toggle: ImageButton = Combo.Toggle.ToggleButton
 		local ValueText = Combo.ValueText
 		ValueText.Text = Config.Placeholder or ""
@@ -1488,7 +1505,7 @@ end
 
 function ImGui:CreateWindow(WindowConfig)
 	--// Create Window frame
-    local Window: Frame = Prefabs.Window:Clone()
+	local Window: Frame = Prefabs.Window:Clone()
     local WindowCorner = Instance.new("UICorner")
     WindowCorner.CornerRadius = UDim.new(0, 10) -- Change 10 pour ajuster l'arrondi
     WindowCorner.Parent = Window
@@ -1514,9 +1531,9 @@ function ImGui:CreateWindow(WindowConfig)
 
 	--// Title Bar
 	local TitleBar: Frame = Content.TitleBar
-        local TitleBarCorner = Instance.new("UICorner")
-        TitleBarCorner.CornerRadius = UDim.new(0, 10) 
-        TitleBarCorner.Parent = TitleBar
+    local TitleBarCorner = Instance.new("UICorner")
+    TitleBarCorner.CornerRadius = UDim.new(0, 10) 
+    TitleBarCorner.Parent = TitleBar
 
 	TitleBar.Visible = WindowConfig.NoTitleBar ~= true
 
